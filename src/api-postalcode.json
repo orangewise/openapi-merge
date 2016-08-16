@@ -1,0 +1,121 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.2",
+    "title": "Postalcode API"
+  },
+  "basePath": "/postalcode",
+  "paths": {
+    "/postalcode": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [{
+          "name": "postalCode",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "pattern": "/^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i"
+        }, {
+          "name": "houseNumber",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "pattern": "/^[0-9]{1,5}$/"
+        }, {
+          "name": "houseNumberAddition",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "pattern": ""
+        }],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Postalcode"
+            }
+          }
+        }
+      }
+    },
+    "/woz": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [{
+          "name": "id",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "pattern": "/^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/WOZ"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Empty": {
+      "type": "object"
+    },
+    "WOZ": {
+      "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{3} ?(?!sa|sd|ss)[A-Z]{2}$",
+            "description": "faker.address.zipCode"
+          },
+          "WOZValue": {
+            "type": "string",
+            "description": "faker.finance.amount"
+          },
+          "WOZValueCurrency": {
+            "type": "string",
+            "description": "faker.finance.currencyCode"
+          },
+          "referenceDate": {
+            "type": "string",
+            "description": "faker.date.past"
+          }
+      }
+    },
+    "Postalcode": {
+       "type": "object",
+       "required": ["postalCode", "houseNumber", "town", "street"],
+       "properties": {
+          "code": {
+            "type": "number"
+         },
+         "message": {
+            "type": "string"
+         },
+         "postalCode": {
+            "type": "string"
+          },
+         "houseNumber": {
+            "type": "string"
+          },
+         "houseNumberAddition": {
+            "type": "string"
+          },
+         "town": {
+            "type": "string"
+          },
+         "street": {
+            "type": "string"
+          }
+       }
+     }
+  }
+}

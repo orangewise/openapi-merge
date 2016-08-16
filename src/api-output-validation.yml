@@ -1,0 +1,20 @@
+---
+  x-a127-services:
+    output-validation:
+      provider: "x-output-validation"
+      apply:
+        pipe: "response"
+        endPoint: "proxy"
+      options:
+        displayName: "Add Output Validation"
+        continueOnError: "true"
+    raiseOutputValidationFault:
+      provider: "x-raiseOutputValidationFault"
+      apply:
+        pipe: "response"
+        endPoint: "proxy"
+      options:
+        displayName: "Raise Output Validation Error"
+        statusCode: 500
+        reasonPhrase: "Server Error"
+        continueOnError: "false"

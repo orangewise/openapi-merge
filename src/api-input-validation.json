@@ -1,0 +1,28 @@
+{
+	"x-a127-services": {
+		"input-validation": {
+			"provider": "x-input-validation",
+			"apply": {
+				"pipe": "request",
+				"endPoint": "proxy"
+			},
+			"options": {
+				"displayName": "Add Input Validation",
+				"continueOnError": "true"
+			}
+		},
+		"raiseInputValidationFault": {
+			"provider": "x-raiseInputValidationFault",
+			"apply": {
+				"pipe": "request",
+				"endPoint": "proxy"
+			},
+			"options": {
+				"displayName": "Raise Input Validation Error",
+				"statusCode": 400,
+				"reasonPhrase": "Bad Request",
+				"continueOnError": "false"
+			}
+		}
+	}
+}

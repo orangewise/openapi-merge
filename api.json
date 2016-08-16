@@ -1,0 +1,264 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.2",
+    "title": "Postalcode API"
+  },
+  "basePath": "/postalcode",
+  "paths": {
+    "/postalcode": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "postalCode",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "pattern": "/^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i"
+          },
+          {
+            "name": "houseNumber",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "pattern": "/^[0-9]{1,5}$/"
+          },
+          {
+            "name": "houseNumberAddition",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "pattern": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "type": "object",
+              "required": [
+                "postalCode",
+                "houseNumber",
+                "town",
+                "street"
+              ],
+              "properties": {
+                "code": {
+                  "type": "number"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "postalCode": {
+                  "type": "string"
+                },
+                "houseNumber": {
+                  "type": "string"
+                },
+                "houseNumberAddition": {
+                  "type": "string"
+                },
+                "town": {
+                  "type": "string"
+                },
+                "street": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/woz": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "pattern": "/^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]{3} ?(?!sa|sd|ss)[A-Z]{2}$",
+                  "description": "faker.address.zipCode"
+                },
+                "WOZValue": {
+                  "type": "string",
+                  "description": "faker.finance.amount"
+                },
+                "WOZValueCurrency": {
+                  "type": "string",
+                  "description": "faker.finance.currencyCode"
+                },
+                "referenceDate": {
+                  "type": "string",
+                  "description": "faker.date.past"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-a127-services": {
+    "add-cors": {
+      "provider": "x-cors",
+      "options": {
+        "displayName": "Add CORS",
+        "headers": {
+          "Access-Control-Allow-Origin": {
+            "type": "string",
+            "default": "*",
+            "description": "Setting this header to `*` allows all origins. This is handy for public REST APIs that don't require authentication. But, according to the HTTP spec, browsers *WILL NOT* send cookies if this header is `*`, regardless of what you set `Access-Control-Allow-Credentials` to.\n"
+          },
+          "Access-Control-Allow-Credentials": {
+            "type": "boolean",
+            "default": false,
+            "description": "Setting this header to `false` means that your API does not use authentication cookies.\n"
+          },
+          "Access-Control-Allow-Headers": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "default": "origin, x-requested-with, accept",
+            "description": "This shows how you can explicitly specify which HTTP headers your API allows.\n"
+          },
+          "Access-Control-Allow-Methods": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "default": "GET, PUT, POST, DELETE",
+            "description": "This shows how you can explicitly specify which HTTP methods your API allows.\n"
+          },
+          "Access-Control-Max-Age": {
+            "type": "integer",
+            "default": 3628800,
+            "description": "This allows client browsers to cache the CORS response for one day (3628800 seconds).  \n"
+          }
+        }
+      }
+    },
+    "input-validation": {
+      "provider": "x-input-validation",
+      "apply": {
+        "pipe": "request",
+        "endPoint": "proxy"
+      },
+      "options": {
+        "displayName": "Add Input Validation",
+        "continueOnError": "true"
+      }
+    },
+    "raiseInputValidationFault": {
+      "provider": "x-raiseInputValidationFault",
+      "apply": {
+        "pipe": "request",
+        "endPoint": "proxy"
+      },
+      "options": {
+        "displayName": "Raise Input Validation Error",
+        "statusCode": 400,
+        "reasonPhrase": "Bad Request",
+        "continueOnError": "false"
+      }
+    },
+    "output-validation": {
+      "provider": "x-output-validation",
+      "apply": {
+        "pipe": "response",
+        "endPoint": "proxy"
+      },
+      "options": {
+        "displayName": "Add Output Validation",
+        "continueOnError": "true"
+      }
+    },
+    "raiseOutputValidationFault": {
+      "provider": "x-raiseOutputValidationFault",
+      "apply": {
+        "pipe": "response",
+        "endPoint": "proxy"
+      },
+      "options": {
+        "displayName": "Raise Output Validation Error",
+        "statusCode": 500,
+        "reasonPhrase": "Server Error",
+        "continueOnError": "false"
+      }
+    }
+  },
+  "definitions": {
+    "Empty": {
+      "type": "object"
+    },
+    "WOZ": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{3} ?(?!sa|sd|ss)[A-Z]{2}$",
+          "description": "faker.address.zipCode"
+        },
+        "WOZValue": {
+          "type": "string",
+          "description": "faker.finance.amount"
+        },
+        "WOZValueCurrency": {
+          "type": "string",
+          "description": "faker.finance.currencyCode"
+        },
+        "referenceDate": {
+          "type": "string",
+          "description": "faker.date.past"
+        }
+      }
+    },
+    "Postalcode": {
+      "type": "object",
+      "required": [
+        "postalCode",
+        "houseNumber",
+        "town",
+        "street"
+      ],
+      "properties": {
+        "code": {
+          "type": "number"
+        },
+        "message": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "houseNumber": {
+          "type": "string"
+        },
+        "houseNumberAddition": {
+          "type": "string"
+        },
+        "town": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
